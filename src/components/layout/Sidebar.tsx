@@ -15,18 +15,20 @@ import {
     NotebookPen, 
     Goal, 
     ListChecks, 
-    LayoutDashboard 
+    LayoutDashboard,
+    Sparkles
 } from "lucide-react";
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export function AppSidebar() {
+export default function AppSidebar() {
     const items = [
-        { title: "Dashboard", url: "#", icon: LayoutDashboard },
-        { title: "Tasks", url: "#", icon: ListChecks },
-        { title: "Goals", url: "#", icon: Goal },
-        { title: "Calendar", url: "#", icon: Calendar },
-        { title: "Journal", url: "#", icon: NotebookPen },
+        { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+        { title: "Tasks", url: "/tasks", icon: ListChecks },
+        { title: "Goals", url: "/goals", icon: Goal },
+        { title: "Calendar", url: "/calendar", icon: Calendar },
+        { title: "Journal", url: "/journal", icon: NotebookPen },
+        { title: "Weekly Summary", url: "/weekly-summary", icon: Sparkles }
     ]
     
     return (
