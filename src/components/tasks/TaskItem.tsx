@@ -9,16 +9,15 @@ import { Button } from '../ui/button';
 
 const TaskItem = () => {
     return (
-        <Card className='flex flex-col gap-4'>
+        <Card className='flex flex-row justify-between items-center'>
                 <CardHeader>
-                    <CardTitle>Task Title</CardTitle>
+                    <CardTitle className='whitespace-nowrap'>Do Laundry</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p>Details about the task...</p>
                 </CardContent>
                 <CardFooter>
-                    <Button variant="outline">Complete</Button>
-                    <Button variant="destructive">Delete</Button>
+                    <Button variant="outline">+3 points</Button>
                 </CardFooter>
         </Card>
     )
