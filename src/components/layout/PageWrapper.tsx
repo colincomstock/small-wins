@@ -15,7 +15,7 @@ const PageWrapper = ({ children }: PageWrapperProps) => {
       <AppSidebar />
       <main className='flex-1 relative'>
         <SidebarTrigger className="absolute top-4 left-4 z-20" />
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="min-h-screen bg-white dark:bg-black">
           {/* Content */}
           <div className="relative z-10">
             {/*<Header />*/}
