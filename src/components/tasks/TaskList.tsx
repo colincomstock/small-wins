@@ -4,7 +4,6 @@ import {
     Table,
     TableBody,
     TableCaption,
-    TableCell,
     TableHead,
     TableHeader,
     TableRow,
@@ -18,42 +17,70 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Ellipsis } from 'lucide-react';
+import TaskItem from './TaskItem';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardTitle
+} from '@/components/ui/card';
 
 const TaskList = () => {
+    
+    type TaskItem = {
+        id: number;
+        title: string;
+        description: string;
+        points: number;
+    }
+
+    const tasks: TaskItem[] = [
+        {
+            id: 1,
+            title: 'Do dishes',
+            description: 'Wash and dry all dishes',
+            points: 5,
+        },
+        {
+            id: 2,
+            title: 'Clean room',
+            description: 'Tidy up the bedroom',
+            points: 3,
+        },
+        {
+            id: 3,
+            title: 'Grocery shopping',
+            description: 'Buy groceries for the week',
+            points: 2,
+        },
+        {
+            id: 4,
+            title: 'Laundry',
+            description: 'Wash and fold clothes',
+            points: 4,
+        }
+    ];
+
     return (
-        <Table>
-            <TableCaption>A list of all tasks for the selected date.</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[100px]">Task</TableHead>
+        <Card>
+                <Table>
+                    <TableCaption>A list of all tasks for the selected date.</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Task</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead>Points</TableHead>
                     <TableHead className="text-right">Action</TableHead>
                     <TableHead className="w-[50px]"></TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow>
-                    <TableCell className="font-medium">Do dishes</TableCell>
-                    <TableCell>Wash and dry all dishes</TableCell>
-                    <TableCell>5</TableCell>
-                    <TableCell className="text-right flex flex-row justify-end gap-2">
-                        <Button variant="outline" className="btn btn-primary">Complete</Button>
-                    </TableCell>
-                    <TableCell>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger>
-                                <Ellipsis />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem>Edit</DropdownMenuItem>
-                                <DropdownMenuItem>Delete</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {tasks.map((task) => (
+                            <TaskItem key={task.id} title={task.title} description={task.description} points={task.points} />
+                        ))}
+                    </TableBody>
+                </Table>
+        </Card>
     );
 };
 

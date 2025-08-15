@@ -11,17 +11,16 @@ import {
 } from "../ui/sidebar.tsx";
 import { 
     Calendar,
-    Home, 
     NotebookPen, 
     Goal, 
     ListChecks, 
     LayoutDashboard,
     Sparkles
 } from "lucide-react";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function AppSidebar() {
+    const location = useLocation();
     const items = [
         { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
         { title: "Tasks", url: "/tasks", icon: ListChecks },
@@ -32,22 +31,26 @@ export default function AppSidebar() {
     ]
     
     return (
-        <Sidebar variant="floating">
+        // Offset under a 64px (h-16) sticky header on md+ screens
+        <Sidebar variant="inset" className="md:top-16 md:h-[calc(100svh-4rem)]">
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Menu</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                    <a href={item.url}>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-                                    </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            {items.map((item) => {
+                                const isActive = location.pathname === item.url;
+                                return (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton asChild isActive={isActive}>
+                                            <Link to={item.url}>
+                                                <item.icon />
+                                                <span>{item.title}</span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                );
+                            })}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

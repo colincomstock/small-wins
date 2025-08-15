@@ -1,30 +1,34 @@
 // TODO: Implement PageWrapper
-import React from 'react';
+import React from 'react'
 import Header from './Header.tsx'
-import { SidebarProvider, SidebarTrigger } from '../ui/sidebar.tsx';
-import AppSidebar from "./Sidebar.tsx";
-
+import { SidebarProvider, SidebarInset } from '../ui/sidebar.tsx'
+import AppSidebar from './Sidebar.tsx'
+import { Toaster } from '../ui/sonner.tsx'
 
 interface PageWrapperProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const PageWrapper = ({ children }: PageWrapperProps) => {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className='flex-1 relative'>
-        <SidebarTrigger className="absolute top-4 left-4 z-20" />
-        <div className="min-h-screen bg-white dark:bg-black">
-          {/* Content */}
-          <div className="relative z-10">
-            {/*<Header />*/}
-            <div className='p-8 font-sans text-foreground'>{children}</div>
-          </div>
-        </div>
-      </main>
-    </SidebarProvider>
-  );
-};
+  <SidebarProvider className="flex min-h-svh flex-col !bg-black">
+      {/* Full-width header above sidebar/content (Shopify style) */}
+      <Header />
 
-export default PageWrapper;
+      {/* Row: sidebar + content inset */}
+      <div className="flex w-full min-h-0 flex-1">
+        <AppSidebar />
+  <SidebarInset className="!bg-black md:peer-data-[variant=inset]:rounded-tr-xl md:peer-data-[variant=inset]:rounded-tl-none md:peer-data-[variant=inset]:rounded-b-none md:shadow-sm overflow-hidden">
+          <main className="flex-1">
+            <div className="min-h-screen bg-card border border-border md:border-l-0">
+              <div className="p-6 lg:p-8 font-sans text-foreground">{children}</div>
+            </div>
+          </main>
+          <Toaster />
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
+  )
+}
+
+export default PageWrapper
