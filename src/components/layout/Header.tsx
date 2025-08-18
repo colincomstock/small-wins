@@ -4,6 +4,8 @@ import { useDarkMode } from '../../hooks/useDarkMode';
 import { Button } from '../ui/button';
 import { SidebarTrigger } from '../ui/sidebar.tsx';
 import { cn } from '@/lib/utils';
+import { Progress } from '../ui/progress.tsx';
+import logo from '../../assets/addup_logo_icon.png';
 
 const Header = () => {
   const { isDark, toggleDark } = useDarkMode()
@@ -19,12 +21,16 @@ const Header = () => {
   return (
     <header
       className={cn(
-  "text-foreground h-16 flex items-center gap-3 px-4 sm:px-6 sticky top-0 z-30",
+  "text-foreground h-16 flex items-center justify-between gap-3 px-4 sm:px-6 sticky top-0 z-30",
   scrolled ? "bg-black/80 backdrop-blur supports-[backdrop-filter]:bg-black/60 border-b border-white/10" : "bg-black"
       )}
     >
       <SidebarTrigger className='md:hidden'/>
-      <h1 className="text-2xl font-semibold mr-auto">Small Wins</h1>
+      <img src={logo} alt="Small Wins Logo" className="h-4" />
+      <div className="flex flex-row items-center gap-2 w-1/2">
+        <Progress value={50} className="" />
+        <span className="text-sm">23/48</span>
+      </div>
       <Button variant="outline" onClick={toggleDark}>
         {isDark ? '☀️ Light' : '🌙 Dark'}
       </Button>

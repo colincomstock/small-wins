@@ -3,10 +3,11 @@ import {
     TableRow
 } from '@/components/ui/table';
 import { Button } from '../ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { CheckCircle, Ellipsis } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from "react"
+import { Badge } from "@/components/ui/badge";
 
 import {
     AlertDialog,
@@ -22,8 +23,10 @@ import {
 
 import { 
     Trash2,
-    Pencil
-
+    Pencil,
+    Check,
+    Hourglass,
+    CircleOff
  } from 'lucide-react';
 
 interface TaskItemProps {
@@ -32,9 +35,10 @@ interface TaskItemProps {
     title?: string;
     description?: string;
     points?: number;
+    status?: 'not started' | 'in progress' | 'completed';
 }
 
-const TaskItem = ({ className, children, title = "Do Laundry", description = "Details about the task...", points = 3 }: TaskItemProps) => {
+const TaskItem = ({ className, children, title = "Do Laundry", description = "Details about the task...", points = 3, status = "completed" }: TaskItemProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false)
 
   // Defer opening so the DropdownMenu can fully close first
@@ -48,11 +52,12 @@ const TaskItem = ({ className, children, title = "Do Laundry", description = "De
       <TableCell className='font-medium'>{title}</TableCell>
       <TableCell>{description}</TableCell>
       <TableCell>{points}</TableCell>
-      <TableCell className="text-right flex flex-row justify-end gap-2">
+      <TableCell><Badge variant={status === 'completed' ? 'default' : status === 'in progress' ? 'secondary' : 'outline'}>{status === 'completed' ? <Check /> : status === 'in progress' ? <Hourglass /> : <CircleOff />}{status}</Badge></TableCell>
+      <TableCell className="flex flex-row justify-center gap-2">
         <Button
           variant="outline"
           onClick={() =>
-            toast(<div className="flex items-center gap-4"><CheckCircle /> <span>Task: "{title}" completed.</span></div>)
+            toast(<div className="flex items-center gap-4"><Check /> <span>Task: "{title}" completed.</span></div>)
           }
         >
           Complete
@@ -67,6 +72,7 @@ const TaskItem = ({ className, children, title = "Do Laundry", description = "De
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Task Actions</DropdownMenuLabel>
             <DropdownMenuItem><Pencil />Edit</DropdownMenuItem>
             <DropdownMenuItem className="focus:bg-red-950" onSelect={openDelete}><Trash2 />Delete</DropdownMenuItem>
           </DropdownMenuContent>
