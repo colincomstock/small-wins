@@ -20,7 +20,7 @@ const PageWrapper = ({ children }: PageWrapperProps) => {
         <AppSidebar />
   <SidebarInset className="!bg-black md:peer-data-[variant=inset]:rounded-tr-xl md:peer-data-[variant=inset]:rounded-tl-none md:peer-data-[variant=inset]:rounded-b-none md:shadow-sm overflow-hidden">
           <main className="flex-1">
-            <div className="min-h-screen bg-card border border-border md:border-l-0">
+            <div className="h-full bg-card border border-border md:border-l-0">
               <div className="p-6 lg:p-8 font-sans text-foreground">{children}</div>
             </div>
           </main>

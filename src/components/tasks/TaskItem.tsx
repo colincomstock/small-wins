@@ -4,7 +4,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { CheckCircle, Ellipsis } from 'lucide-react';
+import { CheckCircle, Clock, Ellipsis } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +26,10 @@ import {
     Pencil,
     Check,
     Hourglass,
-    CircleOff
+    CircleOff,
+    Clock1,
+    Clock3,
+    Calendar1
  } from 'lucide-react';
 
 interface TaskItemProps {
@@ -72,9 +75,14 @@ const TaskItem = ({ className, children, title = "Do Laundry", description = "De
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Snooze</DropdownMenuLabel>
+            <DropdownMenuItem><Clock1 />1 Hour</DropdownMenuItem>
+            <DropdownMenuItem><Clock3 />3 Hours</DropdownMenuItem>
+            <DropdownMenuItem><Calendar1 />1 Day</DropdownMenuItem>
             <DropdownMenuLabel>Task Actions</DropdownMenuLabel>
+            <DropdownMenuItem><Hourglass />In Progress</DropdownMenuItem>
             <DropdownMenuItem><Pencil />Edit</DropdownMenuItem>
-            <DropdownMenuItem className="focus:bg-red-950" onSelect={openDelete}><Trash2 />Delete</DropdownMenuItem>
+            <DropdownMenuItem className="focus:bg-red-100 dark:focus:bg-red-950" onSelect={openDelete}><Trash2 />Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 

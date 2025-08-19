@@ -6,6 +6,10 @@ import { SidebarTrigger } from '../ui/sidebar.tsx';
 import { cn } from '@/lib/utils';
 import { Progress } from '../ui/progress.tsx';
 import logo from '../../assets/addup_logo_icon.png';
+import {
+  SunMedium,
+  Moon
+} from 'lucide-react';
 
 const Header = () => {
   const { isDark, toggleDark } = useDarkMode()
@@ -29,10 +33,10 @@ const Header = () => {
       <img src={logo} alt="Small Wins Logo" className="h-4" />
       <div className="flex flex-row items-center gap-2 w-1/2">
         <Progress value={50} className="" />
-        <span className="text-sm">23/48</span>
+        <span className="text-sm text-white">23/48</span>
       </div>
       <Button variant="outline" onClick={toggleDark}>
-        {isDark ? '☀️ Light' : '🌙 Dark'}
+        {isDark ? <SunMedium /> : <Moon />}
       </Button>
     </header>
   )
