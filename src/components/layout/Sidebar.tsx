@@ -18,6 +18,7 @@ import {
     Sparkles
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useTasks } from "@/hooks/useTasks.ts";
 
 export default function AppSidebar() {
     const location = useLocation();

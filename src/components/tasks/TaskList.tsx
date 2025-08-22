@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTasks } from '@/hooks/useTasks';
 import {
     Table,
     TableBody,
     TableCaption,
+    TableCell,
     TableFooter,
     TableHead,
     TableHeader,
@@ -16,7 +18,10 @@ import {
     CardTitle
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { CalendarClock } from 'lucide-react';
+import { 
+    CalendarClock,
+    LoaderCircle
+ } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -28,6 +33,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Skeleton } from '../ui/skeleton';
+import { toast } from 'sonner';
+import AddTaskModal from './AddTaskModal';
 
 const TaskList = () => {
     
@@ -38,37 +46,6 @@ const TaskList = () => {
         status: 'not started' | 'in progress' | 'completed';
         points: number;
     }
-
-    const tasks: TaskItem[] = [
-        {
-            id: 1,
-            title: 'Do dishes',
-            description: 'Wash and dry all dishes',
-            status: 'not started',
-            points: 5,
-        },
-        {
-            id: 2,
-            title: 'Clean room',
-            description: 'Tidy up the bedroom',
-            status: 'completed',
-            points: 3,
-        },
-        {
-            id: 3,
-            title: 'Grocery shopping',
-            description: 'Buy groceries for the week',
-            status: 'in progress',
-            points: 2,
-        },
-        {
-            id: 4,
-            title: 'Laundry',
-            description: 'Wash and fold clothes',
-            status: 'not started',
-            points: 4,
-        }
-    ];
 
     const [position, setPosition] = React.useState("today")
 
@@ -87,8 +64,48 @@ const TaskList = () => {
         }
     }
 
+    const { isPending, isError, data, error } = useTasks();
+
+    function tableLoading() {
+        if (isPending) {
+            return (
+                <TableRow>
+                    <TableCell>
+                        <Skeleton className='h-4 w-3/4 rounded-md' />
+                    </TableCell>
+                <TableCell>
+                    <Skeleton className='h-4 w-3/4 rounded-md' />
+                </TableCell>
+                <TableCell>
+                    <Skeleton className='h-4 w-3/4 rounded-md' />
+                </TableCell>
+                <TableCell>
+                    <Skeleton className='h-4 w-3/4 rounded-md' />
+                </TableCell>
+                <TableCell>
+                    <Skeleton className='h-4 w-3/4 rounded-md' />
+                </TableCell>
+            </TableRow>
+            );
+        }
+        if (isError) {
+            toast.error('Failed to load tasks')
+            return (
+                <TableRow>
+                    <TableCell colSpan={5}>
+                        <div className='text-center'>Error: Failed to load tasks.</div>
+                    </TableCell>
+                </TableRow>
+            );
+        }
+    }
+
     return (
         <>
+                <div className='flex flex-row align-items-center justify-between mb-4'>
+                    <h1 className='text-xl font-bold font-sans'>Tasks</h1>
+                    <AddTaskModal />
+                </div>
             <Card className="mb-4">
                 <CardContent className='px-8'>
                     <div className="flex flex-1 h-16 items-center justify-between">
@@ -122,16 +139,17 @@ const TaskList = () => {
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[100px]">Task</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Points</TableHead>
-                        <TableHead className="">Status</TableHead>
-                        <TableHead className="text-center">Action</TableHead>
-                        <TableHead className="w-[50px]"></TableHead>
+                                <TableHead>Description</TableHead>
+                                <TableHead>Points</TableHead>
+                                <TableHead className="">Status</TableHead>
+                                <TableHead className="text-center">Action</TableHead>
+                                <TableHead className="w-[50px]"></TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {tasks.map((task) => (
-                                <TaskItem key={task.id} title={task.title} description={task.description} points={task.points} status={task.status} />
+                            {tableLoading()}
+                            {data?.map((task) => (
+                                <TaskItem key={task.id} title={task.name} description={task.description} points={task.point_value} status={task.status} />
                             ))}
                         </TableBody>
                     </Table>
