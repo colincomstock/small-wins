@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # AddUp
 A habit tracker and encouragement mechanism built for my own tendencies to help me get closer to the ideal me.
 
@@ -68,4 +67,3 @@ I created AddUp for myself—because none of the “off-the-shelf” habit manag
 
 ## Contributing / Feedback
 This is a personal project but I’m open to feedback and suggestions. File an issue or DM me on LinkedIn.
->>>>>>> b4eb3c53f22b2c621c09580e5c201523abc98a46
