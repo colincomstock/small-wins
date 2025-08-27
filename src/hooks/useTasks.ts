@@ -19,6 +19,7 @@ type Task = {
   title: string
   description: string
   points: number
+  due_at: Date
   status: 'not started' | 'in progress' | 'completed'
 }
 

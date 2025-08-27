@@ -44,6 +44,7 @@ const TaskList = () => {
         title: string;
         description: string;
         status: 'not started' | 'in progress' | 'completed';
+        dueAt: Date;
         points: number;
     }
 
@@ -142,6 +143,7 @@ const TaskList = () => {
                                 <TableHead>Description</TableHead>
                                 <TableHead>Points</TableHead>
                                 <TableHead className="">Status</TableHead>
+                                <TableHead className="">Due At</TableHead>
                                 <TableHead className="text-center">Action</TableHead>
                                 <TableHead className="w-[50px]"></TableHead>
                             </TableRow>
@@ -149,7 +151,7 @@ const TaskList = () => {
                         <TableBody>
                             {tableLoading()}
                             {data?.map((task) => (
-                                <TaskItem key={task.id} title={task.name} description={task.description} points={task.point_value} status={task.status} />
+                                <TaskItem key={task.id} title={task.name} description={task.description} points={task.point_value} dueAt={task.due_at} status={task.status} />
                             ))}
                         </TableBody>
                     </Table>

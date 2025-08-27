@@ -8,6 +8,7 @@ import { CheckCircle, Clock, Ellipsis } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge";
+import { format, isBefore, isToday, isTomorrow, isYesterday } from 'date-fns';
 
 import {
     AlertDialog,
@@ -34,20 +35,37 @@ import {
 
 interface TaskItemProps {
     className?: string;
-    children?: React.ReactNode;
     title?: string;
     description?: string;
     points?: number;
+    dueAt?: Date;
     status?: 'not started' | 'in progress' | 'completed';
 }
 
-const TaskItem = ({ className, children, title = "Do Laundry", description = "Details about the task...", points = 3, status = "completed" }: TaskItemProps) => {
+const TaskItem = ({ className, title = "Do Laundry", description = "Details about the task...", points = 3, status = "completed", dueAt = new Date() }: TaskItemProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false)
+
+  // Helper function to format the due date
+  const formatDueDate = (date: Date) => {
+    if (isToday(date)) {
+      const now = new Date()
+      if (isBefore(date, now)) {
+        return "Overdue"
+      }
+      return format(date, "h:mm a") // "1:00 AM"
+    } else if (isTomorrow(date)) {
+      return "Tomorrow"
+    } else if (isYesterday(date)) {
+      return "Yesterday"
+    } else {
+      // For dates further away, show the date
+      return format(date, "MMM d, yyyy")
+    }
+  }
 
   // Defer opening so the DropdownMenu can fully close first
   const openDelete = () => {
     requestAnimationFrame(() => setDeleteOpen(true))
-    // alternative: setTimeout(() => setDeleteOpen(true), 0)
   }
 
   return (
@@ -56,6 +74,7 @@ const TaskItem = ({ className, children, title = "Do Laundry", description = "De
       <TableCell>{description}</TableCell>
       <TableCell>{points}</TableCell>
       <TableCell><Badge variant={status === 'completed' ? 'default' : status === 'in progress' ? 'secondary' : 'outline'}>{status === 'completed' ? <Check /> : status === 'in progress' ? <Hourglass /> : <CircleOff />}{status}</Badge></TableCell>
+      <TableCell>{formatDueDate(new Date("2025-08-27T22:00:00Z"))}</TableCell>
       <TableCell className="flex flex-row justify-center gap-2">
         <Button
           variant="outline"
