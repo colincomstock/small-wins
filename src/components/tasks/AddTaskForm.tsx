@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,24 +24,36 @@ import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { Calendar } from '@/components/ui/calendar'
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { useCategories } from "@/hooks/useCategories"
 
 const formSchema = z.object({
     title: z.string().min(1, "Title is required").max(30),
     description: z.string().optional(),
     points: z.number().min(1, "You must select a difficulty").max(3),
-    dueDate: z.date().nonoptional()
+    dueDate: z.date().nonoptional(),
+    category: z.string().min(1, "Categoryh is required").max(30),
 })
 
 type FormData = z.infer<typeof formSchema>
 
 export default function AddTaskForm() {
+
+    const { 
+        isPending: categoryPending, 
+        isError: categoryError, 
+        data: categoryData, 
+        error: categoryErrorMessage 
+    } = useCategories();
+    console.log(categoryData);
+
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
             description: "",
             points: 1,
-            dueDate: undefined
+            dueDate: undefined,
+            category: ""
         },
     })
 
@@ -141,6 +154,29 @@ export default function AddTaskForm() {
                                 </FormItem>
                             )}
                         />
+                        <FormField 
+                            control={form.control}
+                            name="category"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Category</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select a category" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {categoryData?.map((category) => (
+                                                <SelectItem key={category.id} value={category.id}>{category.name} (default)</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+
+
 
                         <Button type='submit'>Save</Button>
                     </form>
